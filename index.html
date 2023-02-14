@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <script src="./js/tailwind.js"></script>
+    <script src="./js/index.js" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+        integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <title>E-Learn</title>
+</head>
+<body class="bg-gray-100">
+    <div class="sticky top-0 w-full  z-100 left-0 bg-white py-3 px-4 flex shadow-md mb-5 justify-between items-center">
+        <h1 class="font-semibold"><i class="fa-solid fa-book-open-reader pr-2"></i>E-Learn</h1>
+        <a href="./pages/sign.html" class="text-semibold text-blue-900 hover:bg-blue-100 px-3 py-1 rounded cursor-pointer">Sign In</a>
+    </div>
+
+    <div class="text-sm font-semibold mb-4 mx-4 md:mx-10">Course Materials</div>
+    <div id="container" class="px-4 md:px-10 grid grid-cols-1 md:grid-cols-3 gap-10">
+        
+    </div>
+
+    <div class="text-sm font-semibold mb-4 mx-4 md:mx-10 mt-6">Data Mining</div>
+    <div id="dataContainer" class="px-4 md:px-10 grid grid-cols-1 md:grid-cols-2 gap-10">
+        <div class="bg-white p-4 rounded-md shadow-md">
+            <div id="chartContainer" style="height: 270px; width: 100%;"></div>
+        </div>
+        <div class="bg-white p-4 rounded-md shadow-md">
+            <div id="splineContainer" style="height: 270px; width: 100%;"></div>
+        </div>
+    </div>
+    <div  class="px-4 md:px-10 grid grid-cols-1 gap-10 mt-6">
+        <div class="bg-white p-4 rounded-md shadow-md">
+            <div id="monthlyContainer" style="height: 270px; width: 100%;"></div>
+        </div>
+    </div>
+
+    <div id="user" style="display: none;">
+        <div class="px-4 md:px-10 mt-6 bg-white py-8 shadow-md mx-5 rounded-md">
+            <div class="text-sm text-gray-500">Signed User:</div>
+            <div id="username" class="font-semibold text-blue-900"></div>
+        </div>
+    </div>
+
+    <div class="text-sm font-semibold mb-4 mt-6 mx-4 md:mx-10">Popular Articles</div>
+    <div class="px-4 md:px-10 grid grid-cols-1 md:grid-cols-2 gap-10">
+        <a target="_blank" href="https://www.educba.com/data-mining-techniques-for-business/">
+            <div class="bg-white">
+                <img class="w-full" style="height: 250px;" src="./img/1.jpeg" alt="" srcset="">
+                <p class="font-semibold py-2 px-2 rounded shadow-sm">Data Mining Techniques</p>
+            </div>
+        </a>
+        <a target="_blank" href="https://www.safe.com/blog/2022/09/dataminingexamples/">
+            <div class="bg-white">
+                <img class="w-full" style="height: 250px;" src="./img/2.png" alt="" srcset="">
+                <p class="font-semibold py-3 px-2 rounded shadow-sm">Data Mining Examples in Real World</p>
+            </div>
+        </a>
+    </div>
+
+
+    <footer class="bg-gray-700 p-4 mt-6 text-white">
+        E-learning Platform built as a CS Final Year Project:
+        <br><br>
+        <p>Name: <span class="font-semibold">Yusuf Saidu Sabiu</span></p>
+        <p>Reg No: <span class="font-semibold">U1/17/CSC/0529</span></p>
+        
+    </footer>
+</body>
+</html>
