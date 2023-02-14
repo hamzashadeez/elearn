@@ -157,3 +157,9 @@ window.onload = function () {
 
   monthly.render();
 };
+
+document.getElementById("signOut").addEventListener("click", () => {
+  localStorage.clear("@elearn");
+  document.getElementById("user").style.display = "none";
+  alert("Successfully Signed Out");
+});
