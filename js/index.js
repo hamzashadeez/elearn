@@ -42,12 +42,30 @@ let data = [
   },
 ];
 
+const getCount = () => {
+  if (JSON.parse(localStorage.getItem("@count"))) {
+    return JSON.parse(localStorage.getItem("@count"));
+  } else {
+    return 5800;
+  }
+};
+let Count = getCount();
+
+const getPlatformCount = () => {
+  if (JSON.parse(localStorage.getItem("@platformcount"))) {
+    return JSON.parse(localStorage.getItem("@platformcount"));
+  } else {
+    return 18;
+  }
+};
+let PlatformCount = getPlatformCount();
+
 const container = document.getElementById("container");
 const render = () => {
   // html element
   data.map((d) => {
     let html = `<div class="bg-white rounded-md">
-                <iframe id="video" style="width: 100%; height: 300px;" src=${d.url} title="YouTube video player"
+                <iframe id="video" onpointerenter="updateData()" style="width: 100%; height: 300px;" src=${d.url} title="YouTube video player"
                     frameborder="0"
                     allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     allowfullscreen>
@@ -56,6 +74,15 @@ const render = () => {
             </div>`;
     container.innerHTML += html;
   });
+};
+
+const updateData = () => {
+  Count++;
+  PlatformCount++;
+  localStorage.setItem("@count", JSON.stringify(Count));
+  localStorage.setItem("@platformcount", JSON.stringify(PlatformCount));
+  updateMonthly();
+  OS();
 };
 
 render();
@@ -74,28 +101,41 @@ const showUser = () => {
     console.log(user, "no user");
   }
 };
-
-window.onload = function () {
-  showUser();
-  var chartEl = new CanvasJS.Chart("chartContainer", {
+const updateMonthly = () => {
+  document.getElementById("monthlyContainer").innerHTML = "";
+  var monthly = new CanvasJS.Chart("monthlyContainer", {
     title: {
-      text: "Operating Systems Students Use For E-learning",
+      text: "Monthly E-learning Website Visits",
     },
     data: [
       {
-        type: "doughnut",
+        type: "area",
         dataPoints: [
-          { y: 53.37, indexLabel: "Android" },
-          { y: 35.0, indexLabel: "Apple iOS" },
-          { y: 7, indexLabel: "Mac OS" },
-          { y: 2, indexLabel: "Windows Phone" },
-          { y: 5, indexLabel: "Others" },
+          { x: new Date(2022, 00, 1), y: 2600 },
+          { x: new Date(2022, 01, 1), y: 3800 },
+          { x: new Date(2022, 02, 1), y: 4300 },
+          { x: new Date(2022, 03, 1), y: 2900 },
+          { x: new Date(2022, 04, 1), y: 4100 },
+          { x: new Date(2022, 05, 1), y: 4500 },
+          { x: new Date(2022, 06, 1), y: 8600 },
+          { x: new Date(2022, 07, 1), y: 6400 },
+          { x: new Date(2022, 08, 1), y: 5300 },
+          { x: new Date(2022, 09, 1), y: 6000 },
+          { x: new Date(2022, 10, 1), y: 1600 },
+          { x: new Date(2022, 11, 1), y: 9000 },
+          { x: new Date(2022, 12, 1), y: 7800 },
+          { x: new Date(2023, 1, 1), y: Count },
         ],
       },
     ],
   });
+  monthly.render();
+};
+window.onload = function () {
+  showUser();
+  OS();
+  updateMonthly();
 
-  chartEl.render();
   // spline
   var chart = new CanvasJS.Chart("splineContainer", {
     title: {
@@ -124,38 +164,6 @@ window.onload = function () {
   });
 
   chart.render();
-
-  //   monthly
-  var monthly = new CanvasJS.Chart("monthlyContainer", {
-    title: {
-      text: "Monthly E-learning Website Visits",
-    },
-    data: [
-      {
-        type: "area",
-        dataPoints: [
-          //array
-
-          { x: new Date(2022, 00, 1), y: 2600 },
-          { x: new Date(2022, 01, 1), y: 3800 },
-          { x: new Date(2022, 02, 1), y: 4300 },
-          { x: new Date(2022, 03, 1), y: 2900 },
-          { x: new Date(2022, 04, 1), y: 4100 },
-          { x: new Date(2022, 05, 1), y: 4500 },
-          { x: new Date(2022, 06, 1), y: 8600 },
-          { x: new Date(2022, 07, 1), y: 6400 },
-          { x: new Date(2022, 08, 1), y: 5300 },
-          { x: new Date(2022, 09, 1), y: 6000 },
-          { x: new Date(2022, 10, 1), y: 1600 },
-          { x: new Date(2022, 11, 1), y: 9000 },
-          { x: new Date(2022, 12, 1), y: 7800 },
-          { x: new Date(2023, 1, 1), y: 6800 },
-        ],
-      },
-    ],
-  });
-
-  monthly.render();
 };
 
 document.getElementById("signOut").addEventListener("click", () => {
@@ -163,3 +171,26 @@ document.getElementById("signOut").addEventListener("click", () => {
   document.getElementById("user").style.display = "none";
   alert("Successfully Signed Out");
 });
+
+const OS = () => {
+  document.getElementById("chartContainer").innerHTML = "";
+  var chartEl = new CanvasJS.Chart("chartContainer", {
+    title: {
+      text: "Operating Systems Students Use For E-learning",
+    },
+    data: [
+      {
+        type: "doughnut",
+        dataPoints: [
+          { y: PlatformCount, indexLabel: "Windows OS" },
+          { y: 53.37, indexLabel: "Android" },
+          { y: 35.0, indexLabel: "Apple iOS" },
+          { y: 17, indexLabel: "Mac OS" },
+          { y: 4, indexLabel: "Others" },
+        ],
+      },
+    ],
+  });
+
+  chartEl.render();
+};
