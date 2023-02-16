@@ -42,6 +42,53 @@ let data = [
   },
 ];
 
+let url = "https://mee-backend.vercel.app/elearn";
+
+const getDataOnline = async () => {
+  await fetch(url, {
+    method: "GET", // POST, PUT, DELETE, etc.
+    headers: {
+      // the content type header value is usually auto-set
+      // depending on the request body
+      "Content-Type": "application/json",
+    },
+    body: undefined, // string, FormData, Blob, BufferSource, or URLSearchParams
+    referrer: "about:client", // or "" to send no Referer header,
+    referrerPolicy: "strict-origin-when-cross-origin", // no-referrer-when-downgrade, no-referrer, origin, same-origin...
+    mode: "cors", // same-origin, no-cors
+    credentials: "same-origin", // omit, include
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+      updateMonthly(data);
+      OS(data);
+    })
+    .catch((error) => console.log(error));
+};
+
+const updateDataOnline = async () => {
+  await fetch(url, {
+    method: "PUT", // POST, PUT, DELETE, etc.
+    headers: {
+      // the content type header value is usually auto-set
+      // depending on the request body
+      "Content-Type": "application/json",
+    },
+    body: undefined, // string, FormData, Blob, BufferSource, or URLSearchParams
+    referrer: "about:client", // or "" to send no Referer header,
+    referrerPolicy: "strict-origin-when-cross-origin", // no-referrer-when-downgrade, no-referrer, origin, same-origin...
+    mode: "cors", // same-origin, no-cors
+    credentials: "same-origin", // omit, include
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+      getDataOnline();
+    })
+    .catch((error) => console.log(error));
+};
+
 const getCount = () => {
   if (JSON.parse(localStorage.getItem("@count"))) {
     return JSON.parse(localStorage.getItem("@count"));
@@ -77,12 +124,13 @@ const render = () => {
 };
 
 const updateData = () => {
-  Count++;
-  PlatformCount++;
-  localStorage.setItem("@count", JSON.stringify(Count));
-  localStorage.setItem("@platformcount", JSON.stringify(PlatformCount));
-  updateMonthly();
-  OS();
+  updateDataOnline();
+  // Count++;
+  // PlatformCount++;
+  // localStorage.setItem("@count", JSON.stringify(Count));
+  // localStorage.setItem("@platformcount", JSON.stringify(PlatformCount));
+  // updateMonthly();
+  // OS();
 };
 
 render();
@@ -101,7 +149,7 @@ const showUser = () => {
     console.log(user, "no user");
   }
 };
-const updateMonthly = () => {
+const updateMonthly = (data) => {
   document.getElementById("monthlyContainer").innerHTML = "";
   var monthly = new CanvasJS.Chart("monthlyContainer", {
     title: {
@@ -124,7 +172,7 @@ const updateMonthly = () => {
           { x: new Date(2022, 10, 1), y: 1600 },
           { x: new Date(2022, 11, 1), y: 9000 },
           { x: new Date(2022, 12, 1), y: 7800 },
-          { x: new Date(2023, 1, 1), y: Count },
+          { x: new Date(2023, 1, 1), y: data.visits },
         ],
       },
     ],
@@ -133,8 +181,9 @@ const updateMonthly = () => {
 };
 window.onload = function () {
   showUser();
-  OS();
-  updateMonthly();
+  // OS();
+  getDataOnline();
+  // updateMonthly();
 
   // spline
   var chart = new CanvasJS.Chart("splineContainer", {
@@ -172,7 +221,7 @@ document.getElementById("signOut").addEventListener("click", () => {
   alert("Successfully Signed Out");
 });
 
-const OS = () => {
+const OS = (data) => {
   document.getElementById("chartContainer").innerHTML = "";
   var chartEl = new CanvasJS.Chart("chartContainer", {
     title: {
@@ -182,8 +231,8 @@ const OS = () => {
       {
         type: "doughnut",
         dataPoints: [
-          { y: PlatformCount, indexLabel: "Windows OS" },
-          { y: 53.37, indexLabel: "Android" },
+          { y: data.windows, indexLabel: "Windows OS" },
+          { y: data.android, indexLabel: "Android" },
           { y: 35.0, indexLabel: "Apple iOS" },
           { y: 17, indexLabel: "Mac OS" },
           { y: 4, indexLabel: "Others" },
